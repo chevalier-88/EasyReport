@@ -1,0 +1,62 @@
+<template>
+    <v-layout>
+        <!--<input type="text" placeholder="input text message" v-model="text"/>-->
+        <v-text-field label="message:" placeholder="input text message" v-model="text" filled></v-text-field>
+        <!--<input type="button" value="Save" @click="save"/>-->
+        <v-btn rounded color="primary" dark @click="save">Save</v-btn>
+    </v-layout>
+
+</template>
+
+<script>
+    import {sendMessage} from "util/ws";
+
+    export default {
+        name: "MessageForm",
+        props: ['messages', 'messageAttr'],
+        data() {
+            return {
+                text: ''
+            }
+        },
+        watch: {
+            messageAttr: function (newVal, oldVal) {
+                this.text = newVal.text;
+                this.id = newVal.id;
+            }
+        },
+        methods: {
+            save() {
+
+                sendMessage({id: this.id, text: this.text})
+                this.text = ''
+                this.id = ''
+
+
+                // const message = {text: this.text}
+                //
+                // if (this.id) {
+                //     this.$resource('/messages{/id}').update({id: this.id}, message).then(result =>
+                //         result.json().then(data => {
+                //             // const index = getIndex(this.messages, data.id);
+                //             const index = this.messages.findIndex((element) => element.id === this.id)
+                //             this.messages.splice(index, 1, data)
+                //             this.text = ''
+                //             this.id = ''
+                //         })
+                //     )
+                // } else {
+                //     this.$resource('/messages{/id}').save({}, message).then(result => result.json().then(data => {
+                //         this.messages.push(data)
+                //         this.text = ''
+                //     }))
+                // }
+
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
