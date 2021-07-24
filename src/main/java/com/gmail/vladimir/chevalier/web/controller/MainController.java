@@ -33,6 +33,8 @@ public class MainController {
         if (user != null) {
             data.put("profile", user);
             data.put("messages", messageRepo.findAll());
+        } else {
+            model.addAttribute("messages", "[]");
         }
         model.addAttribute("frontendData", data);
         model.addAttribute("isDevMode", "dev".equals(profile));
@@ -41,3 +43,10 @@ public class MainController {
 
 
 }
+
+
+
+
+
+
+

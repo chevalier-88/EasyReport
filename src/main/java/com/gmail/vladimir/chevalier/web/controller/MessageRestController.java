@@ -1,33 +1,37 @@
 package com.gmail.vladimir.chevalier.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.gmail.vladimir.chevalier.web.dto.EventType;
+import com.gmail.vladimir.chevalier.web.dto.ObjectType;
 import com.gmail.vladimir.chevalier.web.entities.Message;
 import com.gmail.vladimir.chevalier.web.repo.MessageRepo;
+import com.gmail.vladimir.chevalier.web.service.MessageService;
 import com.gmail.vladimir.chevalier.web.utils.Views;
+import com.gmail.vladimir.chevalier.web.utils.WsSender;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.BiConsumer;
+
 
 @RestController
 @RequestMapping("messages")
 public class MessageRestController {
 
-    private final MessageRepo messageRepo;
+    private final MessageService messageService;
 
     @Autowired
-    public MessageRestController(MessageRepo messageRepo) {
-        this.messageRepo = messageRepo;
+    public MessageRestController(MessageService messageService) {
+        this.messageService = messageService;
     }
 
     @GetMapping
     @JsonView(Views.BasicLevel.class)
     public List<Message> list() {
-        return messageRepo.findAll();
+        return messageService.list();
     }
 
     @GetMapping("{id}")
@@ -38,24 +42,16 @@ public class MessageRestController {
 
     @PostMapping
     public Message create(@RequestBody Message message) {
-        message.setCreationDate(LocalDateTime.now());
-        return messageRepo.save(message);
+        return messageService.create(message);
     }
 
     @PutMapping("{id}")
     public Message update(@PathVariable("id") Message messageFromDb, @RequestBody Message message) {
-        BeanUtils.copyProperties(message, messageFromDb, "id");
-        return messageRepo.save(messageFromDb);
+        return messageService.update(messageFromDb, message);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Message message) {
-        messageRepo.delete(message);
-    }
-
-    @MessageMapping("/changeMessage")
-    @SendTo("/topic/activity")
-    public Message change(Message message){
-        return messageRepo.save(message);
+        messageService.delete(message);
     }
 }

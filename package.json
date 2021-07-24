@@ -1,0 +1,33 @@
+{
+  "name": "EasyReport",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/chevalier-88/EasyReport.git",
+  "author": "Vladimir Chevalier <chevalier.vladimir@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack serve"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@stomp/stompjs": "^6.1.0",
+    "sockjs-client": "^1.5.1",
+    "vue": "^2.6.14",
+    "vue-resource": "^1.5.3",
+    "vue-router": "^3.5.2",
+    "vuetify": "^2.5.6",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^6.2.0",
+    "vue-loader": "15.9.0",
+    "vue-style-loader": "^4.1.3",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}

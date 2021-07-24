@@ -1,19 +1,18 @@
 <template>
     <v-layout>
-        <!--<input type="text" placeholder="input text message" v-model="text"/>-->
         <v-text-field label="message:" placeholder="input text message" v-model="text" filled></v-text-field>
-        <!--<input type="button" value="Save" @click="save"/>-->
         <v-btn rounded color="primary" dark @click="save">Save</v-btn>
     </v-layout>
 
 </template>
 
 <script>
-    import {sendMessage} from "util/ws";
+
+    import {mapActions} from 'vuex'
 
     export default {
         name: "MessageForm",
-        props: ['messages', 'messageAttr'],
+        props: ['messageAttr'],
         data() {
             return {
                 text: ''
@@ -26,32 +25,19 @@
             }
         },
         methods: {
+            ...mapActions(['addMessageAction', 'updateMessageAction']),
             save() {
 
-                sendMessage({id: this.id, text: this.text})
+                const message = {id: this.id, text: this.text}
+
+                if (this.id) {
+                    this.updateMessageAction(message)
+                } else {
+                    this.addMessageAction(message)
+                }
+
                 this.text = ''
                 this.id = ''
-
-
-                // const message = {text: this.text}
-                //
-                // if (this.id) {
-                //     this.$resource('/messages{/id}').update({id: this.id}, message).then(result =>
-                //         result.json().then(data => {
-                //             // const index = getIndex(this.messages, data.id);
-                //             const index = this.messages.findIndex((element) => element.id === this.id)
-                //             this.messages.splice(index, 1, data)
-                //             this.text = ''
-                //             this.id = ''
-                //         })
-                //     )
-                // } else {
-                //     this.$resource('/messages{/id}').save({}, message).then(result => result.json().then(data => {
-                //         this.messages.push(data)
-                //         this.text = ''
-                //     }))
-                // }
-
             }
         }
     }

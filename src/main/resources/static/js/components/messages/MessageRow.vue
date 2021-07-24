@@ -1,13 +1,4 @@
 <template>
-    <!--<div>-->
-    <!--<div>{{message.text}}-->
-    <!--<span>-->
-    <!--<input type="button" value="Edit" @click="edit">-->
-    <!--<input type="button" value="Del" @click="del">-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--</div>-->
-
     <v-list-item>
         <v-list-item-content>
             {{message.text}}
@@ -19,19 +10,37 @@
     </v-list-item>
 </template>
 
+
 <script>
+    import { mapActions } from 'vuex'
     export default {
-        name: "MessageRow",
-        props: ['message', 'messages', 'editMessage', 'deleteMessage'],
+        props: ['message', 'editMessage'],
         methods: {
+            ...mapActions(['removeMessageAction']),
             edit() {
                 this.editMessage(this.message)
             },
             del() {
-                this.deleteMessage(this.message)
+                this.removeMessageAction(this.message)
             }
         }
     }
+    // import {mapActions} from 'vuex'
+    //
+    // export default {
+    //     name: "MessageRow",
+    //     props: ['message', 'editMessage'],
+    //
+    //     methods: {
+    //         ...mapActions(['removeMessageAction']),
+    //         edit() {
+    //             this.editMessage(this.message)
+    //         },
+    //         del() {
+    //             this.removeMessageAction(this.message)
+    //         }
+    //     }
+    // }
 </script>
 
 <style scoped>
