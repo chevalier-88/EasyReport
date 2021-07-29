@@ -6,8 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        messages: frontendData.messages,
-        profile: frontendData.profile
+        messages,
+        ...frontendData
     },
     getters: {
         sortedMessages: state => (state.messages || []).sort((a, b) => -(a.id - b.id))
@@ -31,6 +31,21 @@ export default new Vuex.Store({
                     ...state.messages.splice(deletionIndex + 1)
                 ]
             }
+        },
+
+        //
+        addMessagePageMutation(state, messages) {
+            const targetMessages = state.messages.concat(messages).reduce((res, val) => {
+                res[val.id] = val
+                return res
+            }, {})
+            state.messages = Object.values(targetMessages)
+        },
+        updateTotalPagesMutation(state, totalPages) {
+            state.totalPages = totalPages
+        },
+        updateCurrentPageMutation(state, currentPage) {
+            state.currentPage = currentPage
         }
     },
     actions: {
@@ -55,6 +70,15 @@ export default new Vuex.Store({
             if (result.ok) {
                 commit('removeMessageMutation', message)
             }
+        },
+
+        //
+        async loadPageAction({commit, state}) {
+            const response = await messagesApi.page(state.currentPage + 1)
+            const data = await response.json()
+            commit('addMessagePageMutation', data.messages)
+            commit('updateTotalPagesMutation', data.totalPages)
+            commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1))
         }
     }
 })

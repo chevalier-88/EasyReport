@@ -7,6 +7,7 @@
             <v-list-item-group color="primary">
                 <message-row v-for="message in sortedMessages" :key="message.id" :message="message"
                              :editMessage="editMessage"/>
+                <lazy-loader></lazy-loader>
             </v-list-item-group>
         </v-list>
     </v-container>
@@ -16,12 +17,14 @@
     import {mapGetters} from 'vuex'
     import MessageRow from '../components/messages/MessageRow.vue'
     import MessageForm from '../components/messages/MessageForm.vue'
+    import LazyLoader from "../components/LazyLoader.vue";
 
 
     export default {
         name: "MessagesList",
 
         components: {
+            LazyLoader,
             MessageRow, MessageForm
         },
 
@@ -43,5 +46,10 @@
 </script>
 
 <style scoped>
-
+    button {
+        background-color: red;
+    }
+    v-btn{
+        background-color: red;
+    }
 </style>

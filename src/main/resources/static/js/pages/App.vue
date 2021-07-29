@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
     <v-app>
         <v-app-bar app>
@@ -11,20 +11,27 @@
             </v-btn>
             <v-spacer></v-spacer>
 
-            <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
-            </v-btn>
             <span v-if="profile">
-            <v-btn text @click="showProfile" :disabled="$route.path==='/profile'">
-                {{profile.name}}&nbsp;
-            </v-btn>
+                <v-list-item>
+                    <v-list-item-avatar>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-img :src="profile.userpic" @click="showProfile"
+                                       :disabled="$route.path==='/profile'"
+                                       v-bind="attrs" v-on="on"/>
+                            </template>
+                            <span>Press for open profile</span>
+                        </v-tooltip>
+                    </v-list-item-avatar>
 
-                <v-btn href="/logout" icon>
-                    <v-icon>
-                        mdi-logout
-                    </v-icon>
+                    <v-list-item-content>
+                        <v-btn href="/logout" icon>
+                    <v-icon>mdi-logout</v-icon>
                 </v-btn>
-                </span>
+                    </v-list-item-content>
+                </v-list-item>
+            </span>
+
         </v-app-bar>
         <!---->
         <v-navigation-drawer v-model="drawer" absolute temporary>

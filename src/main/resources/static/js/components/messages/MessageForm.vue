@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <v-text-field label="message:" placeholder="input text message" v-model="text" filled></v-text-field>
+        <v-text-field label="message:" placeholder="input text message" v-model="text" filled @keyup.enter="save"></v-text-field>
         <v-btn rounded color="primary" dark @click="save">Save</v-btn>
     </v-layout>
 
@@ -44,5 +44,10 @@
 </script>
 
 <style scoped>
-
+    button {
+        background-color: red;
+    }
+    v-btn{
+        background-color: red;
+    }
 </style>

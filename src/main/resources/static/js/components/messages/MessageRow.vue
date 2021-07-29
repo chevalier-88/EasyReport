@@ -12,7 +12,8 @@
 
 
 <script>
-    import { mapActions } from 'vuex'
+    import {mapActions} from 'vuex'
+
     export default {
         props: ['message', 'editMessage'],
         methods: {
@@ -25,24 +26,14 @@
             }
         }
     }
-    // import {mapActions} from 'vuex'
-    //
-    // export default {
-    //     name: "MessageRow",
-    //     props: ['message', 'editMessage'],
-    //
-    //     methods: {
-    //         ...mapActions(['removeMessageAction']),
-    //         edit() {
-    //             this.editMessage(this.message)
-    //         },
-    //         del() {
-    //             this.removeMessageAction(this.message)
-    //         }
-    //     }
-    // }
 </script>
 
 <style scoped>
+    button {
+        background-color: red;
+    }
 
+    v-btn {
+        background-color: red;
+    }
 </style>

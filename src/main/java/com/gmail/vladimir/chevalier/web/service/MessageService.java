@@ -1,6 +1,7 @@
 package com.gmail.vladimir.chevalier.web.service;
 
 import com.gmail.vladimir.chevalier.web.dto.EventType;
+import com.gmail.vladimir.chevalier.web.dto.MessagePageDto;
 import com.gmail.vladimir.chevalier.web.dto.ObjectType;
 import com.gmail.vladimir.chevalier.web.entities.Message;
 import com.gmail.vladimir.chevalier.web.repo.MessageRepo;
@@ -8,10 +9,11 @@ import com.gmail.vladimir.chevalier.web.utils.Views;
 import com.gmail.vladimir.chevalier.web.utils.WsSender;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.function.BiConsumer;
 
 @Service
@@ -28,8 +30,10 @@ public class MessageService {
     }
 
 
-    public List<Message> list() {
-        return messageRepo.findAll();
+    public MessagePageDto list(Pageable pageable) {
+
+        Page<Message> page = messageRepo.findAll(pageable);
+        return new MessagePageDto(page.getContent(), pageable.getPageNumber(), page.getTotalPages());
     }
 
     public Message create(Message message) {
